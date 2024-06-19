@@ -7,7 +7,7 @@ email:  daniel.romero@supsi.ch
 ## Installation
 (requires devtools)
 type on R console
-> devtools::install_github("funaction/cacti")
+> devtools::install_github("funaction/kobo")
 
 ## Dependencies
 None
