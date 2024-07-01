@@ -11,3 +11,8 @@ type on R console
 
 ## Dependencies
 None
+
+## USAGE
+
+access help by tipping
+?kobo::prepare_data
