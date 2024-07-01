@@ -14,6 +14,6 @@ None
 
 ## USAGE
 
-access help by tipping
+access help by typing
 
 ?kobo::prepare_data
