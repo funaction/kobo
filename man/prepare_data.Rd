@@ -4,14 +4,26 @@
 \alias{prepare_data}
 \title{prepare_data}
 \usage{
-prepare_data(kobodata, filename = "fundata.csv", outdir = getwd())
+prepare_data(
+  kobodata,
+  outfname = "fundata.csv",
+  projectname = "funaction",
+  rm_photo_data = TRUE,
+  rm_data_check_columns = TRUE
+)
 }
 \arguments{
 \item{kobodata}{name of the funaction-kobo data file}
 
-\item{filename}{name of the output file}
+\item{outfname}{name of the output file}
 
-\item{outdir}{directory path where to store the file
+\item{projectname}{filter by project name  (e.g., funaction)
+Use "all" to select all projects}
+
+\item{rm_photo_data}{remove data related to photos. Default TRUE}
+
+\item{rm_data_check_columns}{remove boolean data check variables.
+Default TRUE
 
 OUTPUT}
 }
