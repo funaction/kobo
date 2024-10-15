@@ -8,7 +8,7 @@
 # author:       Daniel Romero Mujalli
 # email:        daniel.romero@supsi.ch
 #
-# last update:  20241010
+# last update:  20241015
 #
 ######################################################################
 ###############################################################
@@ -119,15 +119,15 @@ prepare_data <- function(kobodata
                            )
 
     # manually simplify other names
-    selection <- c("EC"
-                  ,"Electric_Conductivity_C_S_cm"
-                  ,"sample_time"
+    selection <- c("sample_time"
                   ,"sample_date"
+                  ,"Electric_Conductivity_C_S_cm"
+                  ,"EC"
                   )
-    names(df)[names(df) %in% selection] <- c("ECspc"
-                                            ,"EC"
-                                            ,"time"
+    names(df)[names(df) %in% selection] <- c("time"
                                             ,"date"
+                                            ,"ECspc"
+                                            ,"EC"
                                             )
 
     # remove photo data
