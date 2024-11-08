@@ -16,4 +16,4 @@ None
 
 access help by typing
 
-?kobo::prepare_data
+>?kobo::prepare_data
