@@ -45,6 +45,9 @@ prepare_data <- function(kobodata
                         ,rm_data_check_columns = TRUE
                         )
 {
+    # ensure lower case
+    projectname <- tolower(projectname)
+
     # check that kobodata file exists
     if(!file.exists(kobodata))
         return (print("file not found"))
@@ -54,27 +57,61 @@ prepare_data <- function(kobodata
 
     # select data for desired project
     if(sum(projectname != "all") > 0)
-        df <- df[df$Project %in% projectname, ]
+        df <- df[tolower(df$Project) %in% projectname, ]
 
-     # Simplify country names
-    df$Country <- sub(pattern = "funaction_"
-                     ,replacement = ""
-                     ,x = df$Country
-                     )
+    # Simplify country names
+    #df$Country <- sub(pattern = "funaction_"
+    #                 ,replacement = ""
+    #                 ,x = df$Country
+    #                 )
 
     # remove not-approved records
-    selection <- grep(pattern = "not_approved"
+    selection <- grep(pattern = "not approved|on hold"
                      ,x = tolower(df$X_validation_status)
                      )
     df <- df[-selection,]
 
-    # simplify sample_types names
-    root <- "Sample_types."
+    # simplify names by removing redundant roots
+    root <- "Sample.types.taken"
+    names(df)[names(df) %in% root] <- "samples_taken"
     names(df) <- sub(pattern = root
-                     ,replacement = "sampled_"
+                     ,replacement = ""
+                     ,x = names(df)
+                     )
+    root <- "..label.as.USID.|..label.as.UISD."
+    names(df) <- sub(pattern = root
+                     ,replacement = "_"
                      ,x = names(df)
                      )
 
+    root <- "Unique.Site.ID.."
+    names(df) <- sub(pattern = root
+                     ,replacement = ""
+                     ,x = names(df)
+                     )
+
+    root <- ".Water.for.chemical.analysis_"
+    names(df) <- sub(pattern = root
+                     ,replacement = ""
+                     ,x = names(df)
+                     )
+    root <- "......DO.NOT.filter|......Filter.this.sample.through.0.45.um"
+    names(df) <- sub(pattern = root
+                     ,replacement = ""
+                     ,x = names(df)
+                     )
+    
+    root <- "Volume.filtered.for.Sterivex.filter..ml..."
+    names(df) <- sub(pattern = root
+                     ,replacement = "volume_"
+                     ,x = names(df)
+                     )
+    
+    root <- "X_Capture.your.location_"
+    names(df) <- sub(pattern = root
+                     ,replacement = ""
+                     ,x = names(df)
+                     )
     # simplify names used for leaf species
     root <- "leaf_species."
     names(df) <- sub(pattern = root
@@ -89,15 +126,16 @@ prepare_data <- function(kobodata
                      ,x = names(df)
                      )
     
-    # simplify names used for PA_type
-    root <- "PA_type."
+    root <- "Plant.taxa.from.which.leaves.were.collected.in.the.Litter.sample..if.sampled.at.the.site."
+    names(df)[names(df) %in% root] <- "plant_taxa"
     names(df) <- sub(pattern = root
                      ,replacement = ""
                      ,x = names(df)
                      )
-    
-    # simplify names for location
-    root <- "X_location_"
+
+    # simplify names used for PA_type
+    root <- "Type.s..of.protections"
+    names(df)[names(df) %in% root] <- "PA_type"
     names(df) <- sub(pattern = root
                      ,replacement = ""
                      ,x = names(df)
@@ -119,15 +157,22 @@ prepare_data <- function(kobodata
                            )
 
     # manually simplify other names
-    selection <- c("sample_time"
-                  ,"sample_date"
-                  ,"Electric_Conductivity_C_S_cm"
-                  ,"EC"
+    selection <- c("Sampling.Time"
+                  ,"Sampling.Date"
+                  ,"Water.Temperature...C."
+                  ,"Electric.Conductivity.SPC..µS.cm."
+                  ,"Electric.Conductivity.C..µS.cm."
+                  ,"Oxygen.saturation...."
+                  ,"Dissolved.Oxygen..mg.L."
                   )
-    names(df)[names(df) %in% selection] <- c("time"
+    names(df)[names(df) %in% selection] <- c(
+                                            "time"
                                             ,"date"
+                                            ,"waterTemp"
                                             ,"ECspc"
                                             ,"EC"
+                                            ,"O2"
+                                            ,"DO"
                                             )
 
     # remove photo data
