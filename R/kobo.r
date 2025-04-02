@@ -8,7 +8,7 @@
 # author:       Daniel Romero Mujalli
 # email:        daniel.romero@supsi.ch
 #
-# last update:  20250401
+# last update:  20250402
 #
 ######################################################################
 ###############################################################
@@ -119,6 +119,18 @@ prepare_data <- function(kobodata
                      ,x = names(df)
                      )
     
+    root <- "..define.in.comments.at.end."
+    names(df) <- sub(pattern = root
+                     ,replacement = "_leafs"
+                     ,x = names(df)
+                     )
+    
+    root <- "Additional.field.notes.or."
+    names(df) <- sub(pattern = root
+                     ,replacement = ""
+                     ,x = names(df)
+                     )
+
     # simplify names for sterivex volume filtered
     root <- "Volume_filtered_for_ivex_filter_ml_"
     names(df) <- sub(pattern = root
@@ -138,6 +150,17 @@ prepare_data <- function(kobodata
     names(df)[names(df) %in% root] <- "PA_type"
     names(df) <- sub(pattern = root
                      ,replacement = ""
+                     ,x = names(df)
+                     )
+    root <- "Dominant.Land.use.Ecosystem.where.you.are"
+    names(df) <- sub(pattern = root
+                     ,replacement = "onsite_landuse"
+                     ,x = names(df)
+                     )
+
+    root <- ".Other.Park.or.general.Reserve..e.g..regional."
+    names(df) <- sub(pattern = root
+                     ,replacement = "other_PA"
                      ,x = names(df)
                      )
 
@@ -188,6 +211,11 @@ prepare_data <- function(kobodata
         selection <- grep(pattern = "sample|X_", x = names(df))
         df <- df[, -selection]
     }
+
+    # remove point characters from names
+    # then substitute underscore by point characters
+    names(df) <- gsub(pattern = "\\.", replacement = "", x = names(df))
+    names(df) <- sub(pattern = "_", replacement = "\\.", x = names(df))
 
     # write data to outfname
     write.table(x = df
