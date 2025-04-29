@@ -8,7 +8,7 @@
 # author:       Daniel Romero Mujalli
 # email:        daniel.romero@supsi.ch
 #
-# last update:  20250402
+# last update:  20250429
 #
 ######################################################################
 ###############################################################
@@ -216,6 +216,9 @@ prepare_data <- function(kobodata
     # then substitute underscore by point characters
     names(df) <- gsub(pattern = "\\.", replacement = "", x = names(df))
     names(df) <- sub(pattern = "_", replacement = "\\.", x = names(df))
+
+    # remove underscore character from USID names
+    df$USID <- gsub(pattern = "_", replacement = "", x = df$USID)
 
     # write data to outfname
     write.table(x = df
