@@ -8,7 +8,7 @@
 # author:       Daniel Romero Mujalli
 # email:        daniel.romero@supsi.ch
 #
-# last update:  20250429
+# last update:  20250624
 #
 ######################################################################
 ###############################################################
@@ -178,6 +178,14 @@ prepare_data <- function(kobodata
     df[, selection] <- gsub(pattern = ";", replacement = ","
                            ,x = df[, selection]
                            )
+
+    # simplify name identifier for protection status
+    root <- "Is.the.sample.taken.from.a.protected.area"
+    names(df) <- sub(
+        pattern = root,
+        replacement = "protection_status",
+        x = names(df)
+    )
 
     # manually simplify other names
     selection <- c("Sampling.Time"
