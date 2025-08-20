@@ -8,7 +8,7 @@
 # author:       Daniel Romero Mujalli
 # email:        daniel.romero@supsi.ch
 #
-# last update:  20250624
+# last update:  20250820
 #
 ######################################################################
 ###############################################################
@@ -32,18 +32,23 @@
 #' @param rm_data_check_columns remove boolean data check variables.
 #'                    Default TRUE
 #'
+#' @param take_only_approved_data not approved data is discarded
+#'                    Default FALSE
+#'
 #' OUTPUT
 #' @return a prepared data frame (also writes data on disk to outdir)
 #'
 #' @export
 #'
 ######################################################################
-prepare_data <- function(kobodata
-                        ,outfname = "fundata.csv"
-                        ,projectname = "funaction"
-                        ,rm_photo_data = TRUE
-                        ,rm_data_check_columns = TRUE
-                        )
+prepare_data <- function(
+    kobodata,
+    outfname = "fundata.csv",
+    projectname = "funaction",
+    rm_photo_data = TRUE,
+    rm_data_check_columns = TRUE,
+    take_only_approved_data = FALSE
+)
 {
     # ensure lower case
     projectname <- tolower(projectname)
@@ -65,11 +70,14 @@ prepare_data <- function(kobodata
     #                 ,x = df$Country
     #                 )
 
-    # remove not-approved records
-    selection <- grep(pattern = "not approved|on hold"
+    # remove not-approved records, if requested
+    if(take_only_approved_data){
+        selection <- grep(pattern = "not approved|on hold"
                      ,x = tolower(df$X_validation_status)
                      )
-    df <- df[-selection,]
+        df <- df[-selection,]
+    }
+    
 
     # simplify names by removing redundant roots
     root <- "Sample.types.taken"

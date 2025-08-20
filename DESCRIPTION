@@ -10,4 +10,4 @@ Description: this package offers utiliy functions to help preparing the FUNACTIO
 License: `use_mit_license()`
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

@@ -9,7 +9,8 @@ prepare_data(
   outfname = "fundata.csv",
   projectname = "funaction",
   rm_photo_data = TRUE,
-  rm_data_check_columns = TRUE
+  rm_data_check_columns = TRUE,
+  take_only_approved_data = FALSE
 )
 }
 \arguments{
@@ -23,7 +24,10 @@ Use "all" to select all projects}
 \item{rm_photo_data}{remove data related to photos. Default TRUE}
 
 \item{rm_data_check_columns}{remove boolean data check variables.
-Default TRUE
+Default TRUE}
+
+\item{take_only_approved_data}{not approved data is discarded
+Default FALSE
 
 OUTPUT}
 }
