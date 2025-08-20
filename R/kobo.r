@@ -236,6 +236,9 @@ prepare_data <- function(
     # remove underscore character from USID names
     df$USID <- gsub(pattern = "_", replacement = "", x = df$USID)
 
+    # remove any spaces from USID names
+    df$USID <- gsub(pattern = " ", replacement = "", x = df$USID)
+
     # write data to outfname
     write.table(x = df
                ,file = outfname
